@@ -1,0 +1,92 @@
+<html>
+    <head>
+        <title>Ji</title>
+        <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+        <style>
+            #img-container {
+                position: relative;
+                width: 100%;
+                height: 0;
+                padding-bottom: 100%;
+            }
+            #output {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+            }
+            #j > * {
+                width: 48%;
+                padding: 4px 0;
+                margin: 4px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="j">
+            <input class="input" value="寄寄复寄寄寄"/>
+            <input class="input" value="木兰当户寄"/>
+            <input class="input" value="爷娘姊弟"/>
+            <input class="input" value="磨刀霍霍向寄寄"/>
+            <input class="input" value="寄寄"/>
+            <button onclick="doStuff()">寄</button>
+        </div>
+        <div id="img-container">
+            <img id="output"/>
+        </div>
+    </body>
+    <script>
+    function doStuff() {
+        var inputs = document.getElementsByClassName('input')
+
+        var canvas = document.createElement('canvas')
+        canvas.width = 800
+        canvas.height = 800
+        console.log(canvas)
+
+        var lineHeight = 100
+        var fontSize = 64
+        var space = (lineHeight - fontSize) / 2
+        var x = 30
+        var y = 30
+        var red = '#db262b'
+        var blue = '#2041ac'
+
+        var ctx = canvas.getContext('2d')
+        ctx.font = `${fontSize}px "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif`
+
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+        ctx.doDraw = function(style, x, y, text, scale, withComma) {
+            ctx.fillStyle = style
+            ctx.fillRect(x, y, fontSize * scale, lineHeight)
+            if (withComma) {
+                ctx.fillStyle = style
+                ctx.fillText('，', x + fontSize * scale, y + lineHeight - space)
+            }
+
+            ctx.fillStyle = 'white';
+            ctx.fillText(text, x + space * 1.5, y + lineHeight - space * 1.5, fontSize * scale - 2 * space)
+        }
+
+        ctx.doDraw(red, x, y, inputs[0].value, 7)
+
+
+        y += lineHeight + space
+        ctx.doDraw(blue, x, y, inputs[1].value, 6, true)
+
+        y += lineHeight + space
+        ctx.doDraw(red, x, y, inputs[2].value, 5, true)
+
+        y += lineHeight + space
+        ctx.doDraw(blue, x, y, inputs[3].value, 8.5)
+
+        y += lineHeight + space
+        ctx.doDraw(red, x, y, inputs[4].value, 3)
+
+        document.getElementById('output').src = canvas.toDataURL('image/png', 1)
+    }
+    </script>
+</html>
